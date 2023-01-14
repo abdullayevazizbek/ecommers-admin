@@ -1,4 +1,10 @@
-import { AtributePage, BannerPage, BrandPage, CategoriyPage, Dashboard, ProductPage } from "../components/index";
+// import { AtributePage, BannerPage, BrandPage, CategoriyPage, Dashboard, ProductPage } from "../components/index";
+import Dashboard from '../components/Dashboard'
+import AtributePage from '../components/AtributePage'
+import BannerPage from '../components/BannerPage'
+import BrandPage from '../components/BrandPage'
+import CategoriyPage from '../components/CategoriyPage'
+import ProductPage from '../components/ProductPage'
 
 export const routes = [
     {
