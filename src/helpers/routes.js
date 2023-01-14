@@ -5,6 +5,7 @@ import BannerPage from '../components/BannerPage'
 import BrandPage from '../components/BrandPage'
 import CategoriyPage from '../components/CategoriyPage'
 import ProductPage from '../components/ProductPage'
+import { LoginPage } from '../components'
 
 export const routes = [
     {
@@ -37,4 +38,12 @@ export const routes = [
         path: '/attribute',
         component: <AtributePage />,
     },
+]
+
+export const Loginroutes = [
+    {
+        id: 7,
+        path: '/Login',
+        component: <LoginPage />,
+    }
 ]

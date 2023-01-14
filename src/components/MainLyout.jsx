@@ -1,10 +1,10 @@
 import { FileOutlined, PieChartOutlined, UserOutlined } from '@ant-design/icons';
-import { Layout, Menu, theme } from 'antd';
-import { useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Layout, Menu } from 'antd';
+import { useEffect, useState } from 'react';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { routes } from '../helpers/routes';
 const { Sider } = Layout;
-function getItem(label, key, icon,path, children) {
+function getItem(label, key, icon, path, children) {
   return {
     key,
     icon,
@@ -14,16 +14,39 @@ function getItem(label, key, icon,path, children) {
   };
 }
 const items = [
-  getItem('Asosiy', '1', <PieChartOutlined />,'/'),
+  getItem('Asosiy', '1', <PieChartOutlined />, '/'),
   getItem('Mahsulot', '2', <UserOutlined />, '/products'),
   getItem('Kategoriya', '3', <UserOutlined />, '/categoriya'),
   getItem('Atribut', '4', <FileOutlined />, '/attribute'),
-  getItem('Brend', '5', <FileOutlined />,'/brend'),
-  getItem('Banner', '6', <FileOutlined />,'/banner'),
+  getItem('Brend', '5', <FileOutlined />, '/brend'),
+  getItem('Banner', '6', <FileOutlined />, '/banner'),
 ];
 const MAinLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
-  
+  const [activeMenuKey, setactiveMenuKey] = useState('1')
+
+
+  const navigate = useNavigate()
+  const menuItemHandler = (e) => {
+    const { path } = e.item.props
+    navigate(path)
+  }
+  const { pathname } = useLocation()
+  // console.log(pathname);
+
+  function isSelectedMenuItem(path, key) {
+    if (path === pathname) {
+      console.log(key);
+      setactiveMenuKey(key)
+    }
+  }
+
+  useEffect(() => {
+    console.log(items);
+    items.forEach((item) => {
+      isSelectedMenuItem(item.path, item.key)
+    })
+  }, [pathname])
   return (
     <Layout className='layout'
       style={{
@@ -38,10 +61,10 @@ const MAinLayout = () => {
 
         <Menu
           theme="dark"
-          defaultSelectedKeys={['1']}
+          defaultSelectedKeys={[activeMenuKey]}
           mode="inline"
           items={items}
-          onClick={(e) => console.log(e.item.props.path)}
+          onClick={menuItemHandler}
         />
       </Sider>
       <Layout className="site-layout">
@@ -51,6 +74,7 @@ const MAinLayout = () => {
               path={route.path}
               key={route.id}
               element={route.component}
+              onClick
             />
           ))}
         </Routes>

@@ -19,6 +19,7 @@
     padding: 15px;
     background-color: #fff;
     z-index: 5;
+    box-shadow: 4px 15px 18px -3px rgba(0,0,0,0.36);
 }
 .header__row{
     display: flex;
@@ -27,4 +28,10 @@
 }
 .layout{
     padding-top: 65px;
+}
+.login{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
 }
