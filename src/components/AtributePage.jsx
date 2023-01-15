@@ -1,8 +1,11 @@
 import React from 'react'
+import PageHeader from './PageHeader'
 
 function AtributePage() {
   return (
-    <div>AtributePage</div>
+    <>
+      <PageHeader title='Attributelar' btnTitle='Attribute qo`shish' />
+    </>
   )
 }
 

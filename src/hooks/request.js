@@ -52,7 +52,7 @@ export function useRequest(options = {}) {
     }
 }
 export function useLoad(options, dependencies = []) {
-    const request = useRequest({ method: 'GET', ...options }) =
+    const request = useRequest({ method: 'GET', ...options })
         useEffect(() => {
             request.request()
             // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -32,19 +32,18 @@ const MAinLayout = () => {
     navigate(path)
   }
   const { pathname } = useLocation()
-  // console.log(pathname);
 
   function isSelectedMenuItem(path, key) {
     if (path === pathname) {
-      console.log(key);
+      // console.log(key);
       setactiveMenuKey(key)
     }
   }
 
   useEffect(() => {
-    console.log(items);
     items.forEach((item) => {
       isSelectedMenuItem(item.path, item.key)
+      // console.log(item.path,item.key);
     })
   }, [pathname])
   return (

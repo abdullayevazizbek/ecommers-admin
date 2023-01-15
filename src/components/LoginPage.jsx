@@ -1,14 +1,27 @@
 import React from 'react'
-import { Button, Form, Input } from 'antd';
+import { Button, Form, Input,message } from 'antd';
 import { usePostRequest } from '../hooks/request';
 import { loginUrl } from '../helpers/urls';
+import { useNavigate } from 'react-router-dom';
+// import message from 'antd/es/message/useMessage';
 const LoginPage = () => {
-    const loginPostRequest = usePostRequest({url:loginUrl})
-    const hendelonFinish = (e) => {
+    const {request, loading} = usePostRequest({ url: loginUrl })
+    const navigate = useNavigate
+    const hendelonFinish = async (e) => {
         console.log(e);
-        const reponse = loginPostRequest.request({e})
+        const { response, success } = await request({ data:e })
+        console.log(response);
+        if (success) {
+            if (response.isOk) {
+                console.log(response);
+                localStorage.setItem('accessToken',response.accessToken)
+                localStorage.setItem('refreshToken',response.refreshToken)
+                navigate('/')
+            } else {
+                message.warning(response.message)
+            }
+        }
     }
-
 
     return (
         <Form className='login'
@@ -16,8 +29,6 @@ const LoginPage = () => {
             labelCol={{ span: 8 }}
             wrapperCol={{ span: 16 }}
             initialValues={{ remember: true }}
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
             autoComplete="off"
             onFinish={hendelonFinish}
         >
@@ -37,9 +48,10 @@ const LoginPage = () => {
                 <Input.Password />
             </Form.Item>
             <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" loading={loading}>
                     Submit
                 </Button>
+                
             </Form.Item>
         </Form>
     );
