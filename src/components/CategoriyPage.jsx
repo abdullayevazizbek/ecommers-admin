@@ -1,7 +1,7 @@
 // import Title from 'antd/es/skeleton/Title'
 import React, { useState } from 'react'
 import PageHeader from './PageHeader'
-import { useLoad, usePostRequest } from '../hooks/request'
+import { useLoad, usePostRequest, useDeleteRequest } from '../hooks/request'
 import { categoriestListUrl, categoryAddUrl, getcaregoryDeleteUrl } from '../helpers/urls'
 import { Button, Collapse, Form, Input, List, message, Modal, Row, Select, Space, Spin } from 'antd'
 import { generateCategoriesList, slugify } from '../helpers/helpers'
@@ -11,11 +11,11 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 const { Panel } = Collapse
 function CategoriyPage() {
   const categoryPostRequest = usePostRequest({ url: categoryAddUrl })
-  // const categoryDeleteRequest = useDeleteRequest({})
+  const categoryDeleteRequest = useDeleteRequest({})
   const { request, loading, response, } = useLoad({ url: categoriestListUrl })
   const { forminitialsValues, setforminitialsValues } = useState({})
-  const  {modalOPen, setmodalOpen} = useState(false)
-  const {deletedId, setdeletedId } = useState(null)
+  const { modalOPen, setmodalOpen } = useState(false)
+  const { deletedId, setdeletedId } = useState(null)
 
   const hendelonFinish = async (e) => {
     const { name_uz } = e
@@ -51,12 +51,12 @@ function CategoriyPage() {
 
 
   const hendelModalOk = async () => {
-    // const {success} = await categoryDeleteRequest.request({url:getcaregoryDeleteUrl(deletedId)})
-    // if (success) {
-    //   message.success('Kategoriya muvofiqaqqiyatli o`chirildi')
-    //   hendelModalCloce()
-    //   request()
-    // }
+    const { success } = await categoryDeleteRequest.request({ url: getcaregoryDeleteUrl(deletedId) })
+    if (success) {
+      message.success('Kategoriya muvofiqaqqiyatli o`chirildi')
+      hendelModalCloce()
+      request()
+    }
   }
   const hendelModalCloce = () => {
     setdeletedId(null)
@@ -66,12 +66,12 @@ function CategoriyPage() {
 
 
   const genExtra = (item) => {
-    <Space>
+    return <Space>
       <Button default icon={<EditOutlined />} onClick={() => hendleEditBtn(item)} />
-      <Button danger icon={<DeleteOutlined />}  onClick={() => hendelDeliteBtn(item)}/>
+      <Button danger icon={<DeleteOutlined />} onClick={() => hendelDeliteBtn(item)} />
     </Space>
   }
-  console.log(genExtra);
+  console.log(genExtra());
 
 
   return (
@@ -172,7 +172,11 @@ function CategoriyPage() {
                 </Row>
               )
             }
-            <Modal title="Basic Modal" open={modalOPen} onOk={hendelModalOk} onCancel={hendelModalCloce}>
+            <Modal
+              title="Basic Modal"
+              open={modalOPen}
+              onOk={hendelModalOk}
+              onCancel={hendelModalCloce}>
               <p>Some contents...</p>
               <p>Some contents...</p>
               <p>Some contents...</p>
