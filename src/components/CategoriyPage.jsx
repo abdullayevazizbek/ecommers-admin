@@ -1,17 +1,21 @@
 // import Title from 'antd/es/skeleton/Title'
-import React from 'react'
+import React, { useState } from 'react'
 import PageHeader from './PageHeader'
 import { useLoad, usePostRequest } from '../hooks/request'
-import { categoriestListUrl, categoryAddUrl } from '../helpers/urls'
-import { Button, Collapse, Form, Input, List, message, Row, Select, Spin } from 'antd'
+import { categoriestListUrl, categoryAddUrl, getcaregoryDeleteUrl } from '../helpers/urls'
+import { Button, Collapse, Form, Input, List, message, Modal, Row, Select, Space, Spin } from 'antd'
 import { generateCategoriesList, slugify } from '../helpers/helpers'
-import { EditOutlined,DeleteOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
 // const {Col} = Row
 const { Panel } = Collapse
 function CategoriyPage() {
-  const { request, loading, response, } = useLoad({ url: categoriestListUrl })
   const categoryPostRequest = usePostRequest({ url: categoryAddUrl })
+  // const categoryDeleteRequest = useDeleteRequest({})
+  const { request, loading, response, } = useLoad({ url: categoriestListUrl })
+  const { forminitialsValues, setforminitialsValues } = useState({})
+  const  {modalOPen, setmodalOpen} = useState(false)
+  const {deletedId, setdeletedId } = useState(null)
 
   const hendelonFinish = async (e) => {
     const { name_uz } = e
@@ -21,36 +25,54 @@ function CategoriyPage() {
       catImage: '',
     }
 
-    const { success, request } = await categoryPostRequest.request({
+    const { response, success } = await categoryPostRequest.request({
       data: postedData,
     }
-
     )
 
     if (success) {
+      console.log(response);
       message.success('Kategoriya muvofiqaqqiyatli qo`shildi')
+
       request()
     }
   }
 
-  // genExtra = () => {
-  //   <Button
-  //     icon={<EditOutlined />}
-  //     onClick={(event) => {
-  //       // If you don't want click extra trigger collapse, you can prevent this:
-  //       event.stopPropagation();
-  //     }}
-  //   />
-  // }
-  // genExtrs=()=>{
-  //   <Button
-  //   icon={<DeleteOutlined />}
-  //     onClick={(event) => {
-  //       // If you don't want click extra trigger collapse, you can prevent this:
-  //       event.stopPropagation();
-  //     }}
-  //   />
-  // }
+
+  const hendelDeliteBtn = (item) => {
+    setdeletedId(item.id)
+    setmodalOpen(true)
+  }
+
+
+  const hendleEditBtn = (item) => {
+    setforminitialsValues(item)
+  }
+
+
+  const hendelModalOk = async () => {
+    // const {success} = await categoryDeleteRequest.request({url:getcaregoryDeleteUrl(deletedId)})
+    // if (success) {
+    //   message.success('Kategoriya muvofiqaqqiyatli o`chirildi')
+    //   hendelModalCloce()
+    //   request()
+    // }
+  }
+  const hendelModalCloce = () => {
+    setdeletedId(null)
+    setmodalOpen(false)
+  }
+
+
+
+  const genExtra = (item) => {
+    <Space>
+      <Button default icon={<EditOutlined />} onClick={() => hendleEditBtn(item)} />
+      <Button danger icon={<DeleteOutlined />}  onClick={() => hendelDeliteBtn(item)}/>
+    </Space>
+  }
+  console.log(genExtra);
+
 
   return (
     <>
@@ -60,8 +82,6 @@ function CategoriyPage() {
           <Row
             justify={'space-between'}
             className='Row'
-
-
           >
             <Form
               style={{ width: '20%' }}
@@ -70,6 +90,7 @@ function CategoriyPage() {
               autoComplete="off"
               // onFinishFailed={onFinish}
               onFinish={hendelonFinish}
+              initialValues={forminitialsValues}
             >
               <Form.Item
                 label="Kategoriya nomi UZ"
@@ -121,22 +142,22 @@ function CategoriyPage() {
             {
               loading ? (<Spin />) : (
                 <Row style={{ width: "80%" }}>
-                  <Collapse defaultActiveKey={['1']} style={{ width: "100%" }}>
+                  <Collapse defaultActiveKey={['1']} style={{ width: "100%" }} >
                     {
                       response?.categories
                         ?.map((item) => (
 
                           <Panel
+                            extra={genExtra(item)}
                             header={item.name_uz}
                             key={item.id}
-                            
                           >
                             {
                               item?.children?.length ? (<List
                                 bordered
                                 dataSource={item.children}
                                 renderItem={(el) => (
-                                  <List.Item>
+                                  <List.Item extra={genExtra(el)} >
                                     <p>{el.name_uz}</p>
                                   </List.Item>
                                 )}
@@ -151,6 +172,11 @@ function CategoriyPage() {
                 </Row>
               )
             }
+            <Modal title="Basic Modal" open={modalOPen} onOk={hendelModalOk} onCancel={hendelModalCloce}>
+              <p>Some contents...</p>
+              <p>Some contents...</p>
+              <p>Some contents...</p>
+            </Modal>
           </Row>
         )
       }
