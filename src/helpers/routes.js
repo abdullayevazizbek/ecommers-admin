@@ -1,27 +1,28 @@
-// import { AtributePage, BannerPage, BrandPage, CategoriyPage, Dashboard, ProductPage } from "../components/index";
-import Dashboard from '../components/Dashboard'
-import AtributePage from '../components/AtributePage'
-import BannerPage from '../components/BannerPage'
-import BrandPage from '../components/BrandPage'
-import CategoriyPage from '../components/CategoriyPage'
-import ProductPage from '../components/ProductPage'
-import { LoginPage } from '../components'
+import DashboardPage from './../pages/DashboardPage'
+import ProductsPage from './../pages/ProductsPage'
+import CategoriesPage from './../pages/CategoriesPage'
+import BannerPage from './../pages/BannerPage'
+import BrandPage from './../pages/BrandPage'
+import AttributePage from './../pages/AttributePage'
+import LoginPage from '../pages/LoginPage'
+import PageNotFound from '../pages/PageNotFound'
+import OrdersPage from '../pages/OrdersPage'
 
 export const routes = [
     {
         id: 1,
         path: '/',
-        component: <Dashboard />,
+        component: <DashboardPage />,
     },
     {
         id: 2,
         path: '/products',
-        component: <ProductPage />,
+        component: <ProductsPage />,
     },
     {
         id: 3,
-        path: '/categoriya',
-        component: < CategoriyPage />,
+        path: '/categories',
+        component: <CategoriesPage />,
     },
     {
         id: 4,
@@ -30,20 +31,35 @@ export const routes = [
     },
     {
         id: 5,
-        path: '/brend',
+        path: '/brand',
         component: <BrandPage />,
     },
     {
         id: 6,
         path: '/attribute',
-        component: <AtributePage />,
+        component: <AttributePage />,
+    },
+    {
+        id: 10,
+        path: '/orders',
+        component: <OrdersPage />,
+    },
+    {
+        id: 9,
+        path: '*',
+        component: <PageNotFound type='routes'/>,
     },
 ]
 
-export const Loginroutes = [
+export const loginRoutes = [
     {
         id: 7,
-        path: '/Login',
+        path: '/login',
         component: <LoginPage />,
-    }
+    },
+    {
+        id: 8,
+        path: '*',
+        component: <PageNotFound type='loginroutes' />,
+    },
 ]

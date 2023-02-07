@@ -1,29 +1,31 @@
-import React, { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { LoginPage } from "./components";
-import Header from "./components/Header";
-import MAinLayout from "./components/MainLyout";
-import useAuth from "./hooks/useAuth";
-
+import React, { useEffect } from 'react'
+import { Routes, Route, useNavigate } from 'react-router-dom'
+import Header from './components/Header'
+import MainLayout from './components/Layout'
+import { loginRoutes } from './helpers/routes'
+import useAuth from './hooks/useAuth'
 function App() {
-  
-  const isLogin = useAuth()
-  const navigation = useNavigate()
-  const location =useLocation()
-  useEffect(() =>{
-    if (!isLogin) {
-      navigation('/login')
-    }
-  }, [location])
-  return (
-    <div>
-      <Header/>
-      {
-        isLogin ? <MAinLayout /> : <LoginPage/>
-      }
+    const isLogin = useAuth()
+    const navigate = useNavigate()
 
-    </div>
-  );
+    return (
+        <div>
+            <Header />
+            {isLogin ? (
+                <MainLayout />
+            ) : (
+                <Routes>
+                    {loginRoutes.map((item) => (
+                        <Route
+                            key={item.id}
+                            path={item.path}
+                            element={item.component}
+                        />
+                    ))}
+                </Routes>
+            )}
+        </div>
+    )
 }
 
-export default App;
+export default App

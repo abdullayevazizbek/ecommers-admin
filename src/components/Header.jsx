@@ -1,34 +1,35 @@
 import React from 'react'
+import { Logo } from '../assets/icons'
 import { Select } from 'antd'
-import Logo from '../assets/icons/Logo'
-
 function Header() {
-    return  <div className='header'>
-        <div className="header__row">
-            <div className='header__logo'>
-                <Logo />
-            </div>
-            <div className="header__select">
-                <Select
-                    defaultValue='uzbek'
-                    style={{
-                        width: 120,
-                    }}
-                    options={[
-                        {
-                            value: 'Uzbek',
-                            label: 'Uzbek',
-                        },
-                        {
-                            value: 'Рус',
-                            label: 'Рус',
-                        },
-                        
-                    ]}
-                />
+    return (
+        <div className='header'>
+            <div className='header__row'>
+                <div className='header__logo'>
+                    <Logo />
+                </div>
+
+                <div className='header__select'>
+                    <Select
+                        defaultValue='uz'
+                        style={{
+                            width: 120,
+                        }}
+                        options={[
+                            {
+                                value: 'uz',
+                                label: 'Uzbek',
+                            },
+                            {
+                                value: 'ru',
+                                label: 'Ruscha',
+                            },
+                        ]}
+                    />
+                </div>
             </div>
         </div>
-    </div>
+    )
 }
 
 export default Header

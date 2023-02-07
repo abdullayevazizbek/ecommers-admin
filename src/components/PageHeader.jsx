@@ -1,15 +1,15 @@
-import React from 'react'
 import { Button, Row, Typography } from 'antd'
+import React from 'react'
 
-const {Title}=Typography
-
+const { Title } = Typography
 function PageHeader(props) {
-    const {title,btnTitle} =props
+    const { title, btnTitle, handleClick } = props
     return (
-        <Row className='canteiner' justify='space-between' style={{ paddingTop: '20px', paddingLeft: '20px' }}>
+        <Row justify='space-between' className='container pageHeader'>
             <Title level={2}>{title}</Title>
-            <Button>{btnTitle}</Button>
-        </Row>)
+            {btnTitle && <Button onClick={handleClick}>{btnTitle}</Button>}
+        </Row>
+    )
 }
 
 export default PageHeader
